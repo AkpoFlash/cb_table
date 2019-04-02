@@ -9,7 +9,7 @@ const GlobalStyle = createGlobalStyle`
 		font-family: GothamPro;
 		src: url('/resources/fonts/GothamPro-Light.woff') format('woff');
 		font-weight: normal;
-  	font-style: normal;
+  		font-style: normal;
 		font-display: block;
 	}
 
@@ -17,18 +17,9 @@ const GlobalStyle = createGlobalStyle`
 		font-family: GothamPro;
 		src: url('/resources/fonts/GothamPro.woff') format('woff');
 		font-weight: bold;
-  	font-style: normal;
+  		font-style: normal;
 		font-display: block;
 	}
-
-	@keyframes cloud {
-        0%, 100% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(.96);
-        }
-    }
 
 	body {
 		margin: 0;

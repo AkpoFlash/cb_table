@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import get from 'lodash/get';
+import maxBy from 'lodash/maxBy';
 
 import Table from '~/components/Table/Table';
 
@@ -21,9 +22,11 @@ const App = () => {
 			.then(res => setData(get(res, 'fa.fa_data.r', {})));
 	}, []);
 
+	const maxFDeltaPlan = get(maxBy(data, item => item.fDeltaPlan), 'fDeltaPlan', 0);
+
 	return (
 		<>
-			<Table header={header} data={data} />
+			<Table header={header} data={data} maxFDeltaPlan={maxFDeltaPlan} />
 		</>
 	);
 };
