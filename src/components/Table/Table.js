@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import orderBy from 'lodash/orderBy';
 
 import { DARK_BG, LIGTH_BG, WHITE } from '~/constants/styles';
-import Graph from '~/components/Table/Graph';
+import Graph from '~/components/Table/Graph/Graph';
 
 const StyledTable = styled.table`
 	width: 100%;
@@ -54,29 +54,33 @@ const Table = ({ header, data, graphColIds }) => {
 
 	return (
 		<StyledTable>
-			<Header>
-				{header.map((item, i) => (
-					<th key={item.id} data-id={i} onClick={handleSort}>
-						{item.title}
-					</th>
-				))}
-			</Header>
-			{tableData.map(col => (
-				<Row key={col.toString()}>
-					{col.map((cell, i) => (
-						<td key={cell.toString()}>
-							{graphColIds.includes(i) ? <Graph delta={cell} /> : cell}
-						</td>
+			<tbody>
+				<Header>
+					{header.map((item, i) => (
+						<th key={item.id} data-id={i} onClick={handleSort}>
+							{item.title}
+						</th>
 					))}
-				</Row>
-			))}
+				</Header>
+				{tableData.map(col => (
+					<Row key={col.toString()}>
+						{col.map((cell, i) => (
+							<td key={cell.toString()}>
+								{graphColIds.includes(i) ? <Graph delta={cell} /> : cell}
+							</td>
+						))}
+					</Row>
+				))}
+			</tbody>
 		</StyledTable>
 	);
 };
 
 Table.propTypes = {
 	header: PropTypes.arrayOf(PropTypes.shape({})),
-	data: PropTypes.arrayOf(PropTypes.shape({})),
+	data: PropTypes.arrayOf(
+		PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))
+	),
 	graphColIds: PropTypes.arrayOf(PropTypes.number),
 };
 

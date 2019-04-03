@@ -41,11 +41,13 @@ const StyledGraph = styled.span`
 
 const Graph = ({ delta }) => (
 	<GraphBar>
-		<tr>
-			<td>{delta < 0 && <StyledGraph delta={delta} />}</td>
-			<td>{delta}</td>
-			<td>{delta >= 0 && <StyledGraph delta={delta} />}</td>
-		</tr>
+		<tbody>
+			<tr>
+				<td>{delta < 0 && <StyledGraph delta={delta} />}</td>
+				<td>{delta}</td>
+				<td>{delta >= 0 && <StyledGraph delta={delta} />}</td>
+			</tr>
+		</tbody>
 	</GraphBar>
 );
 
