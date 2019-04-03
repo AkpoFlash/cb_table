@@ -12,21 +12,39 @@ const App = () => {
 	const [header, setHeader] = useState([]);
 	const [data, setData] = useState([]);
 
+	const getMaxDelta = data =>
+		get(maxBy(data, maxDeltaItem => maxDeltaItem.fDeltaPlan), 'fDeltaPlan', 0);
+	const calculateDelta = (currentDelta, maxDelta) => Math.round((currentDelta / maxDelta) * 100);
+
 	useEffect(() => {
 		fetch('./data.json')
 			.then(res => res.json())
-			.then(res => setHeader(get(res, 'fa.fa_data.axis.r', {})));
+			.then(res => get(res, 'fa.fa_data.axis.r', []))
+			.then(res =>
+				res.map(item => ({
+					id: get(item, 'nAxisID', ''),
+					title: get(item, 'sAxisName', ''),
+				}))
+			)
+			.then(res => setHeader(res));
 
 		fetch('./data.json')
 			.then(res => res.json())
-			.then(res => setData(get(res, 'fa.fa_data.r', {})));
+			.then(res => get(res, 'fa.fa_data.r', []))
+			.then(res =>
+				res.map(item => [
+					get(item, 'axis.r[0].sName_RU', ''),
+					get(item, 'axis.r[1].sName_RU', ''),
+					'Все валюты',
+					calculateDelta(item.fDeltaPlan, getMaxDelta(res)),
+				])
+			)
+			.then(res => setData(res));
 	}, []);
-
-	const maxFDeltaPlan = get(maxBy(data, item => item.fDeltaPlan), 'fDeltaPlan', 0);
 
 	return (
 		<>
-			<Table header={header} data={data} maxFDeltaPlan={maxFDeltaPlan} />
+			<Table header={header} data={data} />
 		</>
 	);
 };
