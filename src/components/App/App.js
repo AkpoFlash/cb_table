@@ -44,7 +44,7 @@ const App = () => {
 
 	return (
 		<>
-			<Table header={header} data={data} />
+			<Table header={header} data={data} graphColIds={[3]} />
 		</>
 	);
 };

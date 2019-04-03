@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import orderBy from 'lodash/orderBy';
 
 import { DARK_BG, LIGTH_BG, WHITE } from '~/constants/styles';
+import Graph from '~/components/Table/Graph';
 
 const StyledTable = styled.table`
 	width: 100%;
@@ -26,7 +27,7 @@ const Header = styled(Row)`
 	cursor: pointer;
 `;
 
-const Table = ({ header, data }) => {
+const Table = ({ header, data, graphColIds }) => {
 	const [tableData, setTableData] = useState(data);
 	const [currentSortedRow, setCurrentSortedRow] = useState(0);
 	const [sortDirection, setSortDirection] = useState('asc');
@@ -60,10 +61,12 @@ const Table = ({ header, data }) => {
 					</th>
 				))}
 			</Header>
-			{tableData.map(row => (
-				<Row key={row.toString()}>
-					{row.map(cell => (
-						<td key={cell.toString()}>{cell}</td>
+			{tableData.map(col => (
+				<Row key={col.toString()}>
+					{col.map((cell, i) => (
+						<td key={cell.toString()}>
+							{graphColIds.includes(i) ? <Graph delta={cell} /> : cell}
+						</td>
 					))}
 				</Row>
 			))}
@@ -74,6 +77,7 @@ const Table = ({ header, data }) => {
 Table.propTypes = {
 	header: PropTypes.arrayOf(PropTypes.shape({})),
 	data: PropTypes.arrayOf(PropTypes.shape({})),
+	graphColIds: PropTypes.arrayOf(PropTypes.number),
 };
 
 export default React.memo(Table);
